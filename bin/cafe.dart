@@ -28,7 +28,7 @@ class Counter {
     if (ice == true) {
       takeOrder += '아이스 ';
     }
-    if(beverage == null){
+    if(beverage == 'null'){
       print('다시 주문해 주세요.');
     }else{
       takeOrder += beverage;
