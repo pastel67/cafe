@@ -1,9 +1,9 @@
 void main() {
   print('----------손님1----------');
-  var customer1 = Counter(['아이스 아메리카노', '카페모카 아이스'], true);
+  var customer1 = CounterStaff(['아이스 아메리카노', '카페모카 아이스'], true);
   customer1.order();
   print('----------손님2----------');
-  var customer2 = Counter(['아이스 아메리카노', '카페모카', '케모마일'], true);
+  var customer2 = CounterStaff(['아이스 아메리카노', '카페모카', '케모마일'], true);
   customer2.order();
 }
 
@@ -17,11 +17,11 @@ Map<String, int> menu = {
   '아이스': 500,
 };
 
-class Counter {
+class CounterStaff {
   List<String> selectMenu = [];
   bool takeOut;
 
-  Counter(this.selectMenu, this.takeOut);
+  CounterStaff(this.selectMenu, this.takeOut);
 
   List<String> ice = [];
   List<String> beverage = [];
