@@ -10,13 +10,13 @@ Map<String, int> menu = {
 };
 
 void main() {
-  var customer1 = counterStaff('아메리카노', true, true);
+  var customer1 = counterStaff(['아메리카노','카페모카'], [true,false], true);
   customer1.Order();
 }
 
 class Counter{
-  String beverage = '';
-  bool ice;
+  List<String> beverage = [];
+  List<bool> ice = [];
   bool takeOut;
 
   Counter(this.beverage, this.ice, this.takeOut);
@@ -26,19 +26,28 @@ class Counter{
 
 class counterStaff extends Counter{
 
-  String takeOrder = '';
+  List<String> orders = [];
   int totalPrice = 0;
 
   counterStaff(super.beverage, super.ice, super.takeOut);
 
   @override
   void Order() {
-
-    if (ice == true) {
-     takeOrder += '아이스 ';
+    for(int i = 0; i < beverage.length; i++){
+      String takeOrder = '';
+      if (ice[i] == true) {
+       takeOrder += '아이스 ';
+      }
+      print(beverage[i]);
+       if(menu.containsKey(beverage[i]) == false){
+        print('다시 주문해 주세요.');
+        return;
+       }else{
+        takeOrder += '${beverage[i]}';
+       }
+      orders.add(takeOrder);
+      totalPrice += menu[beverage[i]]?? 0;
     }
-  takeOrder += beverage;
-  totalPrice += menu[beverage]?? 0;
 
   noti();
   }
@@ -46,11 +55,11 @@ class counterStaff extends Counter{
   @override
   void noti(){ 
     if (takeOut == true) {
-      print('$takeOrder 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.');
+      print('$orders 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.');
     } else if (takeOut == false) {
-      print('$takeOrder 주문받았습니다.\n$totalPrice원입니다.\n매장컵으로 준비해드릴게요.');
+      print('$orders 주문받았습니다.\n$totalPrice원입니다.\n매장컵으로 준비해드릴게요.');
     } else {
-      print('$takeOrder 주문받았습니다. 드시고 가시나요?');
+      print('$orders 주문받았습니다. 드시고 가시나요?');
     }
   }
 }
