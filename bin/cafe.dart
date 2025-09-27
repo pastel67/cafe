@@ -1,7 +1,10 @@
 void main() {
-  var customer1 = Counter(['아이스 아메리카노','카페모카 아이스'], true);
+  print('----------손님1----------');
+  var customer1 = Counter(['아이스 아메리카노', '카페모카 아이스'], true);
   customer1.order();
-
+  print('----------손님2----------');
+  var customer2 = Counter(['아이스 아메리카노', '카페모카', '케모마일'], true);
+  customer2.order();
 }
 
 Map<String, int> menu = {
@@ -10,8 +13,8 @@ Map<String, int> menu = {
   '카페모카': 4800,
   '카라멜라떼': 5000,
   '바닐라라떼': 5000,
-  '돌체라떼' : 4500,
-  '아이스' : 500
+  '돌체라떼': 4500,
+  '아이스': 500,
 };
 
 class Counter {
@@ -19,34 +22,39 @@ class Counter {
   bool takeOut;
 
   Counter(this.selectMenu, this.takeOut);
- 
+
   List<String> ice = [];
   List<String> beverage = [];
-    
-  void order(){
-    for(int i =0; i < selectMenu.length; i++){
-      if(selectMenu[i].contains('아이스 ') == true ||
-        selectMenu[i].contains(' 아이스') == true){
+
+  void order() {
+    for (int i = 0; i < selectMenu.length; i++) {
+      if (selectMenu[i].contains('아이스 ') == true ||
+          selectMenu[i].contains(' 아이스') == true) {
         ice.add('아이스');
+      }
+
+      if(menu.containsKey(selectMenu[i].replaceAll('아이스', ' ').trim()) == false){
+        print('${selectMenu[i]}은(는) 없는 메뉴입니다. 다시 선택해주세요.');
+        return;
       }
       beverage.add(selectMenu[i].replaceAll('아이스', ' ').trim());
     }
-  sumPrice();
-  }
-  
-  int totalPrice = 0;
-  
-  void sumPrice(){
-    for(int i = 0; i < ice.length; i++){
-      totalPrice += menu[ice[i]]?? 0;
-    }
-    for(int i = 0; i < beverage.length; i++){
-      totalPrice += menu[beverage[i]]?? 0;
-    }
-  noti();
+    sumPrice();
   }
 
-  void noti(){ 
+  int totalPrice = 0;
+
+  void sumPrice() {
+    for (int i = 0; i < ice.length; i++) {
+      totalPrice += menu[ice[i]] ?? 0;
+    }
+    for (int i = 0; i < beverage.length; i++) {
+      totalPrice += menu[beverage[i]] ?? 0;
+    }
+    noti();
+  }
+
+  void noti() {
     if (takeOut == true) {
       print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.');
     } else if (takeOut == false) {
