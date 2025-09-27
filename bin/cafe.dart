@@ -30,6 +30,7 @@ class Counter {
     }
     if(beverage == 'null'){
       print('다시 주문해 주세요.');
+      return;
     }else{
       takeOrder += beverage;
     }
