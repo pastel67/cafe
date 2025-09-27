@@ -1,4 +1,7 @@
-void main() {}
+void main() {
+  var customer1 = PosStaff('아메리카노', true, true);
+  customer1.Order();
+}
 
 List<String> menu = [
   '아메리카노',
@@ -18,21 +21,21 @@ class PosStaff {
 
   PosStaff(this.beverage, this.ice, this.takeOut);
 
-  void takeOrder() {
-    String order = '';
+  void Order() {
+    String takeOrder = '';
 
     if (ice == true) {
-      order += '아이스';
+      takeOrder += '아이스';
     }
 
-    order += beverage;
+    takeOrder += beverage;
 
     if (takeOut == true) {
-      print('$order 주문받았습니다. 일회용컵에 준비해드릴게요.');
+      print('$takeOrder 주문받았습니다. 일회용컵에 준비해드릴게요.');
     } else if (takeOut == false) {
-      print('$order 주문받았습니다. 매장컵으로 준비해드릴게요.');
+      print('$takeOrder 주문받았습니다. 매장컵으로 준비해드릴게요.');
     } else {
-      print('$order 주문받았습니다. 드시고 가시나요?');
+      print('$takeOrder 주문받았습니다. 드시고 가시나요?');
     }
   }
 }
