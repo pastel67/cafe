@@ -1,6 +1,7 @@
 void main() {
-  var customer1 = Customer(['아이스 아메리카노','카페모카 아이스'], true);
+  var customer1 = Counter(['아이스 아메리카노','카페모카 아이스'], true);
   customer1.order();
+
 }
 
 Map<String, int> menu = {
@@ -13,53 +14,45 @@ Map<String, int> menu = {
   '아이스' : 500
 };
 
-class Customer {
-  List<String> select = [];
+class Counter {
+  List<String> selectMenu = [];
   bool takeOut;
-    
+
+  Counter(this.selectMenu, this.takeOut);
+ 
   List<String> ice = [];
   List<String> beverage = [];
-  
-  Customer(this.select, this.takeOut);
-
+    
   void order(){
-    for(int i =0; i < select.length; i++){
-        var [a, b] = select[i].split(' ');
-          if(a == '아이스'){
-            ice.add(a);
-            beverage.add(b);
-          }else if(b == '아이스'){
-            ice.add(b);
-            beverage.add(a);
-          }
+    for(int i =0; i < selectMenu.length; i++){
+      if(selectMenu[i].contains('아이스 ') == true ||
+        selectMenu[i].contains(' 아이스') == true){
+        ice.add('아이스');
+      }
+      beverage.add(selectMenu[i].replaceAll('아이스', ' ').trim());
     }
-    print(ice);
-    print(beverage);
+  sumPrice();
   }
-}
-
-class Counter extends Customer{
-
+  
   int totalPrice = 0;
   
-  Counter(super.select, super.takeOut);
+  void sumPrice(){
+    for(int i = 0; i < ice.length; i++){
+      totalPrice += menu[ice[i]]?? 0;
+    }
+    for(int i = 0; i < beverage.length; i++){
+      totalPrice += menu[beverage[i]]?? 0;
+    }
+  noti();
+  }
 
-}
-
-class CounterStaff extends Counter{
-  
-  List<String> getOrder = [];
-
-  CounterStaff(super.select,super.takeOut);
-
-  @override
   void noti(){ 
     if (takeOut == true) {
-      print('$getOrder 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.');
+      print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.');
     } else if (takeOut == false) {
-      print('$getOrder 주문받았습니다.\n$totalPrice원입니다.\n매장컵으로 준비해드릴게요.');
+      print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n매장컵으로 준비해드릴게요.');
     } else {
-      print('$getOrder 주문받았습니다. 드시고 가시나요?');
+      print('$selectMenu 주문받았습니다. 드시고 가시나요?');
     }
   }
 }
