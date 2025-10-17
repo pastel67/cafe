@@ -1,43 +1,47 @@
+import 'dart:io';
+
 void main() {
-  print('----------손님1----------');
-  var customer1 = CounterStaff(['아이스 아메리카노', '카페모카 아이스'], true);
+   Counter customer1 = Counter(['아이스 아메리카노'], true);
   customer1.order();
-  print('----------손님2----------');
-  var customer2 = CounterStaff(['아이스 아메리카노', '카페모카', '케모마일'], true);
-  customer2.order();
 }
 
-Map<String, int> menu = {
-  '아메리카노': 3000,
-  '카페라떼': 4500,
-  '카페모카': 4800,
-  '카라멜라떼': 5000,
-  '바닐라라떼': 5000,
-  '돌체라떼': 4500,
-  '아이스': 500,
-};
+class Counter {
+  Map<String, int> menu = {
+    '아이스': 500,
+    '아메리카노': 3000,
+    '카페라떼': 4500,
+    '카페모카': 4800,
+    '카라멜라떼': 5000,
+    '바닐라라떼': 5000,
+    '돌체라떼': 4500,
+    '블루베리스무디': 6000,
+    '딸기스무디': 6000,
+    '요거트스무디': 5500,
+  };
 
-class CounterStaff {
   List<String> selectMenu = [];
   bool takeOut;
 
-  CounterStaff(this.selectMenu, this.takeOut);
+  Counter(this.selectMenu, this.takeOut);
 
   List<String> ice = [];
   List<String> beverage = [];
 
   void order() {
     for (int i = 0; i < selectMenu.length; i++) {
-      if (selectMenu[i].contains('아이스 ') == true ||
-          selectMenu[i].contains(' 아이스') == true) {
+      if (selectMenu[i].contains('아이스 ') || selectMenu[i].contains(' 아이스')) {
         ice.add('아이스');
       }
+        try{
+          menu.containsKey(selectMenu[i].replaceAll('아이스', ' ').trim());
+          
+        }catch(e){
+          print('${selectMenu[i]}은(는) 없는 메뉴입니다. 다시 선택해주세요.');
+        } 
 
-      if(menu.containsKey(selectMenu[i].replaceAll('아이스', ' ').trim()) == false){
-        print('${selectMenu[i]}은(는) 없는 메뉴입니다. 다시 선택해주세요.');
-        return;
-      }
-      beverage.add(selectMenu[i].replaceAll('아이스', ' ').trim());
+      
+      
+    beverage.add(selectMenu[i].replaceAll('아이스', ' ').trim());
     }
     sumPrice();
   }
@@ -55,12 +59,8 @@ class CounterStaff {
   }
 
   void noti() {
-    if (takeOut == true) {
-      print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.');
-    } else if (takeOut == false) {
-      print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n매장컵으로 준비해드릴게요.');
-    } else {
-      print('$selectMenu 주문받았습니다. 드시고 가시나요?');
-    }
+    takeOut
+        ? print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n일회용컵으로 준비해드릴게요.')
+        : print('$selectMenu 주문받았습니다.\n$totalPrice원입니다.\n매장컵으로 준비해드릴게요.');
   }
 }
